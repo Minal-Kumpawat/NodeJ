@@ -1,7 +1,12 @@
-const authors=new mongoose.Schema({
-    name:{typeof:String,require:true},
-    email:{typeof:String,require:true},
-    password:{typeof:String,require:true},
-    date:{typeof:date,require:false}
-})
+const mongoose= require("mongoose")
 
+const authorSchema=new mongoose.Schema({
+    name:{type:String,required:true},
+    email:{type:String,required:true,uniqe:true},
+    password:{type:String,required:true},
+    address:{type:String,required:false}
+
+},{versionKey:false,timestamps:true}
+)
+
+module.exports = mongoose.model('user',authorSchema)
