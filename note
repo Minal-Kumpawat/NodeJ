@@ -1,0 +1,7 @@
+(req,res,next)
+token ko nikalo req.headers.autherzation
+barrrier remove
+make a array and take a 1st index
+decode (token ,sK)
+find from data base
+agar mil gya to next and to error

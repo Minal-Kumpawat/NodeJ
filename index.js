@@ -1,19 +1,20 @@
 const express =require ('express')
 const mongoose =require('mongoose')
 const app=express()
-
+const fileUplaod=require("file-upload")
 const core =require('cors')
 app.use(core())
+// app.use(fileUpload());
 
 const route=require ("./route/route")
 // const router = require('./route/route')
-require("dotenv").config()
+require("dotenv").config()          //.evn kok import
 
-const port= process.env.PORT || 8000
+const port= process.env.PORT || 8000      
 // const MONGOURL='mongodb://localhost:27017/practice'
 
-app.use(express.json())         //D
-app.use(express.urlencoded({extended:true}))    //D
+app.use(express.json())         
+app.use(express.urlencoded({extended:true}))    
 
 app.use('/abc',route)
 
