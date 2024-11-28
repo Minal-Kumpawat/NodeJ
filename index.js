@@ -1,10 +1,10 @@
 const express =require ('express')
 const mongoose =require('mongoose')
 const app=express()
-const fileUplaod=require("file-upload")
+const fileUplaod=require("express-fileupload")
 const core =require('cors')
 app.use(core())
-// app.use(fileUpload());
+app.use(fileUplaod());
 
 const route=require ("./route/route")
 // const router = require('./route/route')

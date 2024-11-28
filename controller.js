@@ -2,6 +2,12 @@ const user_modal= require("../modal/modal")
 const bcrypt= require("bcrypt")
 const jwt=require("jsonwebtoken")
 const secretKey='hfdjsfhskdjfhdsjkf'
+const {uploadFile}=require("../utility/utility")
+const otpGenrate=()=>{
+  const otp=(Math.floor(Math.random()*10000))
+  console.log("<<<<<opt",otp)
+  return otp;
+}
 exports.getAllUser = async (req, res) => {
   
     const getUserData = await user_modal.find();
@@ -10,11 +16,14 @@ exports.getAllUser = async (req, res) => {
 
 
 exports.createrUser=async (req,res)=>{
-  console.log("<<<<<<<<<<<<<<",req.body);
-  console.log(">>>>>file>>",req.files)
-  const fileUplaod=uploadFile(req.file)
-  console.log("<<<<<<",fileUplaod)
-  return 
+
+  // console.log("<<<<<<<<<<<<<<",req.body);
+  // console.log(">>>>>file>>",req.files)
+  const fileUplaod=await uploadFile(req.files)
+  console.log("<<<<<<",fileUplaod[0].url)
+  const random = await otpGenrate() 
+
+
   const {name,email,password,dob,address}=req.body
   if (!(name && email && password )){
     return res.status(404).json({message:"all field are required"});
@@ -35,7 +44,9 @@ exports.createrUser=async (req,res)=>{
     email,
     password:hash,
     dob,
-    address
+    address,
+    photo:fileUplaod[0].url,
+    otp:random
   }
   const newUser = new user_modal(data)
   await newUser.save() 
@@ -59,7 +70,7 @@ exports.userLogin=async (req,res)=>{
   //   // {expiresIn:1m}
   // )
   const token = jwt.sign({id:useremail._id},secretKey,
-    {expiresIn:"1h"}
+    {expiresIn:"24h"}
 )    
   res.status(200).json({token,message:'Success'})
 }
